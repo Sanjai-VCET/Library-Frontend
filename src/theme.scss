@@ -1,0 +1,241 @@
+// Enhanced theme system with smooth transitions and accessibility support
+:root {
+  // Primary colors
+  --brand-primary: #7c3aed;
+  --brand-primary-hover: #6d28d9;
+  --brand-primary-active: #5b21b6;
+  --brand-accent: #14b8a6;
+  
+  // Background colors (will be overridden by theme context)
+  --brand-background: #0b1020;
+  --brand-surface: #12172a;
+  --brand-surface2: #1b2138;
+  
+  // Text colors
+  --brand-text: #e6e8f0;
+  --brand-text-muted: #a5adcb;
+  
+  // Border and shadow colors
+  --brand-border: #2d3748;
+  --brand-shadow: rgba(0, 0, 0, 0.3);
+  --brand-shadow-hover: rgba(0, 0, 0, 0.4);
+  
+  // Animation complexity control
+  --animation-complexity: normal;
+  
+  // Transition durations
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}
+
+// SCSS variables for compatibility
+$brand-primary: var(--brand-primary);
+$brand-accent: var(--brand-accent);
+$brand-surface: var(--brand-surface);
+$brand-surface2: var(--brand-surface2);
+$brand-text: var(--brand-text);
+$brand-text-muted: var(--brand-text-muted);
+
+// Theme classes (managed by ThemeContext)
+.light-theme {
+  --brand-background: #f7f7fb;
+  --brand-surface: #ffffff;
+  --brand-surface2: #f1f3f9;
+  --brand-text: #0f172a;
+  --brand-text-muted: #56607a;
+  --brand-border: #e2e8f0;
+  --brand-shadow: rgba(0, 0, 0, 0.1);
+  --brand-shadow-hover: rgba(0, 0, 0, 0.15);
+}
+
+.dark-theme {
+  --brand-background: #0b1020;
+  --brand-surface: #12172a;
+  --brand-surface2: #1b2138;
+  --brand-text: #e6e8f0;
+  --brand-text-muted: #a5adcb;
+  --brand-border: #2d3748;
+  --brand-shadow: rgba(0, 0, 0, 0.3);
+  --brand-shadow-hover: rgba(0, 0, 0, 0.4);
+}
+
+// Enhanced animation helpers with accessibility support
+.shadow-hover { 
+  transition: transform var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+}
+
+.shadow-hover:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 10px 24px var(--brand-shadow-hover);
+}
+
+.scale-hover { 
+  transition: transform var(--transition-fast) ease;
+}
+
+.scale-hover:hover {
+  transform: scale(1.02);
+}
+
+.scale-hover:active { 
+  transform: scale(0.98);
+}
+
+// New enhanced animation helpers
+.fade-in {
+  opacity: 0;
+  animation: fadeIn var(--transition-normal) ease-out forwards;
+}
+
+.slide-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: slideInUp var(--transition-normal) ease-out forwards;
+}
+
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInLeft var(--transition-normal) ease-out forwards;
+}
+
+.slide-in-right {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInRight var(--transition-normal) ease-out forwards;
+}
+
+// Stagger animation delays
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+// Theme transition helper
+.theme-transitioning {
+  transition: all var(--transition-normal) ease-in-out;
+}
+
+// Accessibility: Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0.01s;
+    --transition-normal: 0.01s;
+    --transition-slow: 0.01s;
+    --animation-complexity: low;
+  }
+  
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .shadow-hover:hover {
+    transform: none;
+  }
+  
+  .scale-hover:hover,
+  .scale-hover:active {
+    transform: none;
+  }
+}
+
+// Animation keyframes
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+// Focus styles for accessibility
+.focus-visible {
+  outline: 2px solid var(--brand-primary) !important;
+  outline-offset: 2px !important;
+}
+
+// Screen reader only utility
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Performance optimization for complex animations
+[data-animation-complexity="low"] {
+  .shadow-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .scale-hover:hover,
+  .scale-hover:active {
+    transform: none;
+  }
+  
+  .fade-in,
+  .slide-in-up,
+  .slide-in-left,
+  .slide-in-right {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Responsive navigation styles
+@media (max-width: 768px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  
+  .mobile-menu-btn {
+    display: block !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
+}
